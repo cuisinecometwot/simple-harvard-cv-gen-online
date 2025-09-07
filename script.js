@@ -35,16 +35,24 @@ function addEducation() {
     newItem.className = 'education-item';
     newItem.innerHTML = `
         <div class="form-group">
-            <label>Bằng cấp *</label>
-            <input type="text" name="degree" placeholder="Ví dụ: Cử nhân Khoa học Máy tính" required>
-        </div>
-        <div class="form-group">
             <label>Tên trường *</label>
-            <input type="text" name="school" placeholder="Ví dụ: Đại học Bách Khoa Hà Nội" required>
+            <input type="text" name="school" placeholder="Ví dụ: Harvard University" required>
         </div>
         <div class="form-group">
-            <label>Năm tốt nghiệp *</label>
-            <input type="number" name="graduationYear" min="1900" max="2030" required>
+            <label>Địa điểm *</label>
+            <input type="text" name="location" placeholder="Ví dụ: Cambridge, MA" required>
+        </div>
+        <div class="form-group">
+            <label>Bằng cấp *</label>
+            <input type="text" name="degree" placeholder="Ví dụ: Bachelor of Science in Computer Science" required>
+        </div>
+        <div class="form-group">
+            <label>Thời gian bắt đầu *</label>
+            <input type="month" name="startDate" required>
+        </div>
+        <div class="form-group">
+            <label>Thời gian kết thúc *</label>
+            <input type="month" name="endDate" required>
         </div>
         <div class="form-group">
             <label>GPA (tùy chọn)</label>
@@ -52,7 +60,7 @@ function addEducation() {
         </div>
         <div class="form-group">
             <label>Thành tích nổi bật</label>
-            <textarea name="achievements" rows="2" placeholder="Ví dụ: Thủ khoa, học bổng toàn phần..."></textarea>
+            <textarea name="achievements" rows="2" placeholder="Ví dụ: Magna Cum Laude, Dean's List..."></textarea>
         </div>
         <button type="button" class="remove-btn" onclick="removeEducation(this)">Xóa</button>
     `;
@@ -75,20 +83,28 @@ function addExperience() {
     newItem.className = 'experience-item';
     newItem.innerHTML = `
         <div class="form-group">
-            <label>Vị trí công việc *</label>
-            <input type="text" name="position" placeholder="Ví dụ: Software Engineer" required>
-        </div>
-        <div class="form-group">
             <label>Tên công ty *</label>
             <input type="text" name="company" placeholder="Ví dụ: Google Inc." required>
         </div>
         <div class="form-group">
-            <label>Thời gian làm việc *</label>
-            <input type="text" name="duration" placeholder="Ví dụ: 2020 - 2023" required>
+            <label>Địa điểm *</label>
+            <input type="text" name="location" placeholder="Ví dụ: Mountain View, CA" required>
+        </div>
+        <div class="form-group">
+            <label>Vị trí công việc *</label>
+            <input type="text" name="position" placeholder="Ví dụ: Software Engineer" required>
+        </div>
+        <div class="form-group">
+            <label>Thời gian bắt đầu *</label>
+            <input type="month" name="startDate" required>
+        </div>
+        <div class="form-group">
+            <label>Thời gian kết thúc *</label>
+            <input type="month" name="endDate" placeholder="Để trống nếu đang làm việc">
         </div>
         <div class="form-group">
             <label>Mô tả công việc *</label>
-            <textarea name="description" rows="3" placeholder="Mô tả chi tiết về trách nhiệm và thành tựu..." required></textarea>
+            <textarea name="description" rows="3" placeholder="Mô tả chi tiết về trách nhiệm và thành tựu (mỗi dòng một bullet point)..." required></textarea>
         </div>
         <button type="button" class="remove-btn" onclick="removeExperience(this)">Xóa</button>
     `;
@@ -178,15 +194,17 @@ function collectFormData() {
     // Collect education data
     const educationItems = document.querySelectorAll('.education-item');
     educationItems.forEach(item => {
-        const degree = item.querySelector('input[name="degree"]').value;
         const school = item.querySelector('input[name="school"]').value;
-        const graduationYear = item.querySelector('input[name="graduationYear"]').value;
+        const location = item.querySelector('input[name="location"]').value;
+        const degree = item.querySelector('input[name="degree"]').value;
+        const startDate = item.querySelector('input[name="startDate"]').value;
+        const endDate = item.querySelector('input[name="endDate"]').value;
         const gpa = item.querySelector('input[name="gpa"]').value;
         const achievements = item.querySelector('textarea[name="achievements"]').value;
         
-        if (degree && school && graduationYear) {
+        if (school && location && degree && startDate && endDate) {
             formData.education.push({
-                degree, school, graduationYear, gpa, achievements
+                school, location, degree, startDate, endDate, gpa, achievements
             });
         }
     });
@@ -194,14 +212,16 @@ function collectFormData() {
     // Collect experience data
     const experienceItems = document.querySelectorAll('.experience-item');
     experienceItems.forEach(item => {
-        const position = item.querySelector('input[name="position"]').value;
         const company = item.querySelector('input[name="company"]').value;
-        const duration = item.querySelector('input[name="duration"]').value;
+        const location = item.querySelector('input[name="location"]').value;
+        const position = item.querySelector('input[name="position"]').value;
+        const startDate = item.querySelector('input[name="startDate"]').value;
+        const endDate = item.querySelector('input[name="endDate"]').value;
         const description = item.querySelector('textarea[name="description"]').value;
         
-        if (position && company && duration && description) {
+        if (company && location && position && startDate && description) {
             formData.experience.push({
-                position, company, duration, description
+                company, location, position, startDate, endDate, description
             });
         }
     });
@@ -271,14 +291,19 @@ function generateCVHTML(data) {
                 <div class="cv-section-content">
         `;
         data.education.forEach(edu => {
+            // Format dates
+            const startDate = edu.startDate ? new Date(edu.startDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '';
+            const endDate = edu.endDate ? new Date(edu.endDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '';
+            const dateRange = startDate && endDate ? `${startDate} - ${endDate}` : '';
+            
             html += `
                 <div class="cv-item">
                     <div class="cv-item-header">
                         <span class="cv-item-company">${edu.school}</span>
-                        <span class="cv-item-location">Cambridge, MA</span>
+                        <span class="cv-item-location">${edu.location}</span>
                     </div>
                     <div class="cv-item-degree">${edu.degree}${edu.gpa ? `. GPA: ${edu.gpa}` : ''}</div>
-                    <div class="cv-item-date">${edu.graduationYear}</div>
+                    <div class="cv-item-date">${dateRange}</div>
                     ${edu.achievements ? `<div class="cv-item-description">${edu.achievements}</div>` : ''}
                 </div>
             `;
@@ -294,14 +319,19 @@ function generateCVHTML(data) {
                 <div class="cv-section-content">
         `;
         data.experience.forEach(exp => {
+            // Format dates
+            const startDate = exp.startDate ? new Date(exp.startDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '';
+            const endDate = exp.endDate ? new Date(exp.endDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : '';
+            const dateRange = startDate && endDate ? `${startDate} - ${endDate}` : startDate || 'Present';
+            
             html += `
                 <div class="cv-item">
                     <div class="cv-item-header">
                         <span class="cv-item-company">${exp.company}</span>
-                        <span class="cv-item-location">City, State</span>
+                        <span class="cv-item-location">${exp.location}</span>
                     </div>
                     <div class="cv-item-position">${exp.position}</div>
-                    <div class="cv-item-date">${exp.duration}</div>
+                    <div class="cv-item-date">${dateRange}</div>
                     <div class="cv-item-description">
                         <ul class="cv-bullet-list">
                             ${exp.description.split('\n').filter(line => line.trim()).map(line => 
@@ -385,6 +415,22 @@ function generatePDF() {
     if (formData.experience.length === 0) {
         alert('Vui lòng thêm ít nhất một kinh nghiệm làm việc');
         return;
+    }
+    
+    // Validate education fields
+    for (let edu of formData.education) {
+        if (!edu.school || !edu.location || !edu.degree || !edu.startDate || !edu.endDate) {
+            alert('Vui lòng điền đầy đủ thông tin học vấn (trường, địa điểm, bằng cấp, thời gian)');
+            return;
+        }
+    }
+    
+    // Validate experience fields
+    for (let exp of formData.experience) {
+        if (!exp.company || !exp.location || !exp.position || !exp.startDate) {
+            alert('Vui lòng điền đầy đủ thông tin kinh nghiệm (công ty, địa điểm, vị trí, thời gian bắt đầu)');
+            return;
+        }
     }
     
     // Generate HTML content first

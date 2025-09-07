@@ -60,16 +60,24 @@
                 <div id="educationContainer">
                     <div class="education-item">
                         <div class="form-group">
-                            <label>Bằng cấp *</label>
-                            <input type="text" name="degree" placeholder="Ví dụ: Cử nhân Khoa học Máy tính" required>
-                        </div>
-                        <div class="form-group">
                             <label>Tên trường *</label>
-                            <input type="text" name="school" placeholder="Ví dụ: Đại học Bách Khoa Hà Nội" required>
+                            <input type="text" name="school" placeholder="Ví dụ: Harvard University" required>
                         </div>
                         <div class="form-group">
-                            <label>Năm tốt nghiệp *</label>
-                            <input type="number" name="graduationYear" min="1900" max="2030" required>
+                            <label>Địa điểm *</label>
+                            <input type="text" name="location" placeholder="Ví dụ: Cambridge, MA" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Bằng cấp *</label>
+                            <input type="text" name="degree" placeholder="Ví dụ: Bachelor of Science in Computer Science" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Thời gian bắt đầu *</label>
+                            <input type="month" name="startDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Thời gian kết thúc *</label>
+                            <input type="month" name="endDate" required>
                         </div>
                         <div class="form-group">
                             <label>GPA (tùy chọn)</label>
@@ -77,7 +85,7 @@
                         </div>
                         <div class="form-group">
                             <label>Thành tích nổi bật</label>
-                            <textarea name="achievements" rows="2" placeholder="Ví dụ: Thủ khoa, học bổng toàn phần..."></textarea>
+                            <textarea name="achievements" rows="2" placeholder="Ví dụ: Magna Cum Laude, Dean's List..."></textarea>
                         </div>
                         <button type="button" class="remove-btn" onclick="removeEducation(this)">Xóa</button>
                     </div>
@@ -91,20 +99,28 @@
                 <div id="experienceContainer">
                     <div class="experience-item">
                         <div class="form-group">
-                            <label>Vị trí công việc *</label>
-                            <input type="text" name="position" placeholder="Ví dụ: Software Engineer" required>
-                        </div>
-                        <div class="form-group">
                             <label>Tên công ty *</label>
                             <input type="text" name="company" placeholder="Ví dụ: Google Inc." required>
                         </div>
                         <div class="form-group">
-                            <label>Thời gian làm việc *</label>
-                            <input type="text" name="duration" placeholder="Ví dụ: 2020 - 2023" required>
+                            <label>Địa điểm *</label>
+                            <input type="text" name="location" placeholder="Ví dụ: Mountain View, CA" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Vị trí công việc *</label>
+                            <input type="text" name="position" placeholder="Ví dụ: Software Engineer" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Thời gian bắt đầu *</label>
+                            <input type="month" name="startDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Thời gian kết thúc *</label>
+                            <input type="month" name="endDate" placeholder="Để trống nếu đang làm việc">
                         </div>
                         <div class="form-group">
                             <label>Mô tả công việc *</label>
-                            <textarea name="description" rows="3" placeholder="Mô tả chi tiết về trách nhiệm và thành tựu..." required></textarea>
+                            <textarea name="description" rows="3" placeholder="Mô tả chi tiết về trách nhiệm và thành tựu (mỗi dòng một bullet point)..." required></textarea>
                         </div>
                         <button type="button" class="remove-btn" onclick="removeExperience(this)">Xóa</button>
                     </div>
