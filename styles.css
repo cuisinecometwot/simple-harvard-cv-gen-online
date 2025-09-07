@@ -214,13 +214,13 @@ header p {
 /* CV Preview Styles */
 .cv-preview {
     font-family: 'Times New Roman', serif;
-    line-height: 1.2;
+    line-height: 1.0;
     color: #000;
     background: white;
-    padding: 20px 15px;
+    padding: 15px 10px;
     max-width: 8.5in;
     margin: 0 auto;
-    font-size: 11px;
+    font-size: 11pt;
     box-sizing: border-box;
 }
 
@@ -230,102 +230,106 @@ header p {
 }
 
 .cv-name {
-    font-size: 18px;
+    font-size: 11pt;
     font-weight: bold;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    margin-bottom: 0;
+    text-transform: none;
+    letter-spacing: 0;
 }
 
 .cv-header-line {
     width: 100%;
     height: 1px;
     background-color: #000;
-    margin: 5px 0;
+    margin: 0;
 }
 
 .cv-contact {
-    font-size: 10px;
-    margin-bottom: 3px;
-    line-height: 1.2;
+    font-size: 11pt;
+    margin-bottom: 0;
+    line-height: 1.0;
     text-align: center;
 }
 
 .cv-section {
-    margin-bottom: 15px;
+    margin-bottom: 12pt;
     page-break-inside: avoid;
 }
 
 .cv-section-title {
-    font-size: 12px;
+    font-size: 11pt;
     font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 0;
     text-align: center;
 }
 
 .cv-section-content {
-    font-size: 10px;
+    font-size: 11pt;
     margin-left: 0;
-    line-height: 1.2;
+    line-height: 1.0;
+}
+
+.cv-spacer {
+    height: 12pt;
 }
 
 .cv-item {
-    margin-bottom: 10px;
+    margin-bottom: 12pt;
     page-break-inside: avoid;
 }
 
 .cv-item-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 2px;
+    margin-bottom: 0;
 }
 
 .cv-item-company {
     font-weight: bold;
-    font-size: 11px;
+    font-size: 11pt;
 }
 
 .cv-item-location {
-    font-size: 10px;
-    font-style: italic;
+    font-size: 11pt;
+    font-style: normal;
 }
 
 .cv-item-degree, .cv-item-position {
     font-weight: bold;
-    font-size: 10px;
-    margin-bottom: 1px;
+    font-size: 11pt;
+    margin-bottom: 0;
 }
 
 .cv-item-date {
-    font-size: 9px;
-    color: #666;
-    margin-bottom: 3px;
+    font-size: 11pt;
+    color: #000;
+    margin-bottom: 0;
 }
 
 .cv-item-description {
-    margin-top: 2px;
-    font-size: 9px;
-    line-height: 1.2;
+    margin-top: 0;
+    font-size: 11pt;
+    line-height: 1.0;
 }
 
 .cv-bullet-list {
     margin: 0;
-    padding-left: 15px;
-    list-style-type: disc;
+    padding-left: 0;
+    list-style-type: none;
 }
 
 .cv-bullet-list li {
-    margin-bottom: 1px;
-    font-size: 9px;
-    line-height: 1.2;
+    margin-bottom: 0;
+    font-size: 11pt;
+    line-height: 1.0;
 }
 
 .cv-skills-category {
-    margin-bottom: 3px;
-    font-size: 9px;
-    line-height: 1.2;
+    margin-bottom: 0;
+    font-size: 11pt;
+    line-height: 1.0;
 }
 
 .cv-skills-category strong {

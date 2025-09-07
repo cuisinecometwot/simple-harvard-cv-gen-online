@@ -7,7 +7,14 @@ let projectCount = 1;
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
+    loadSampleData();
 });
+
+// Safe getter for optional inputs
+function getInputValue(inputId) {
+    const element = document.getElementById(inputId);
+    return element ? element.value : '';
+}
 
 function initializeEventListeners() {
     // Preview button
@@ -28,6 +35,49 @@ function initializeEventListeners() {
     });
 }
 
+// Load sample data based on template
+function loadSampleData() {
+    // Check if form is empty
+    const fullName = document.getElementById('fullName').value;
+    if (fullName) return; // Don't load sample data if user has already started filling
+    
+    // Personal Information
+    document.getElementById('fullName').value = 'Firstname Lastname';
+    document.getElementById('email').value = 'youremail@college.harvard.edu';
+    document.getElementById('phone').value = 'phone number';
+    document.getElementById('address').value = 'Home or Campus Street Address • City, State Zip';
+    
+    // Education - Harvard University
+    const educationItem = document.querySelector('.education-item');
+    educationItem.querySelector('input[name="school"]').value = 'Harvard University';
+    educationItem.querySelector('input[name="location"]').value = 'Cambridge, MA';
+    educationItem.querySelector('input[name="degree"]').value = 'Degree, Concentration. GPA [Note: GPA is Optional]';
+    educationItem.querySelector('input[name="startDate"]').value = '2020-09';
+    educationItem.querySelector('input[name="endDate"]').value = '2024-05';
+    educationItem.querySelector('input[name="gpa"]').value = '3.8/4.0';
+    educationItem.querySelector('textarea[name="achievements"]').value = 'Relevant Coursework: [Note: Optional. Awards and honors can also be listed here.]';
+    
+    // Experience
+    const experienceItem = document.querySelector('.experience-item');
+    experienceItem.querySelector('input[name="company"]').value = 'Organization';
+    experienceItem.querySelector('input[name="location"]').value = 'City, State (or Remote)';
+    experienceItem.querySelector('input[name="position"]').value = 'Position Title';
+    experienceItem.querySelector('input[name="startDate"]').value = '2022-06';
+    experienceItem.querySelector('input[name="endDate"]').value = '2023-08';
+    experienceItem.querySelector('textarea[name="description"]').value = 'Beginning with your most recent position, describe your experience, skills, and resulting outcomes in bullet or paragraph form.\nBegin each line with an action verb and include details that will help the reader understand your accomplishments, skills, knowledge, abilities, or achievements.\nQuantify where possible.\nDo not use personal pronouns; each line should be a phrase rather than a full sentence.';
+    
+    // Leadership & Activities
+    const projectItem = document.querySelector('.project-item');
+    projectItem.querySelector('input[name="projectName"]').value = 'Organization';
+    projectItem.querySelector('input[name="projectTech"]').value = 'Role';
+    projectItem.querySelector('textarea[name="projectDesc"]').value = 'This section can be formatted similarly to the Experience section, or you can omit descriptions for activities.\nIf this section is more relevant to the opportunity you are applying for, consider moving this above your Experience section.';
+    
+    // Skills & Interests
+    document.getElementById('skills').value = 'List computer software and programming languages';
+    document.getElementById('languages').value = 'List foreign languages and your level of fluency';
+    document.getElementById('hobbies').value = 'List activities you enjoy that may spark interview conversation';
+}
+
 // Add education section
 function addEducation() {
     const container = document.getElementById('educationContainer');
@@ -35,34 +85,34 @@ function addEducation() {
     newItem.className = 'education-item';
     newItem.innerHTML = `
         <div class="form-group">
-            <label>Tên trường *</label>
-            <input type="text" name="school" placeholder="Ví dụ: Harvard University" required>
+            <label>School/University *</label>
+            <input type="text" name="school" placeholder="e.g., Harvard University" required>
         </div>
         <div class="form-group">
-            <label>Địa điểm *</label>
-            <input type="text" name="location" placeholder="Ví dụ: Cambridge, MA" required>
+            <label>Location *</label>
+            <input type="text" name="location" placeholder="e.g., Cambridge, MA" required>
         </div>
         <div class="form-group">
-            <label>Bằng cấp *</label>
-            <input type="text" name="degree" placeholder="Ví dụ: Bachelor of Science in Computer Science" required>
+            <label>Degree *</label>
+            <input type="text" name="degree" placeholder="e.g., Bachelor of Science in Computer Science" required>
         </div>
         <div class="form-group">
-            <label>Thời gian bắt đầu *</label>
+            <label>Start Date *</label>
             <input type="month" name="startDate" required>
         </div>
         <div class="form-group">
-            <label>Thời gian kết thúc *</label>
+            <label>End Date *</label>
             <input type="month" name="endDate" required>
         </div>
         <div class="form-group">
-            <label>GPA (tùy chọn)</label>
-            <input type="text" name="gpa" placeholder="Ví dụ: 3.8/4.0">
+            <label>GPA (Optional)</label>
+            <input type="text" name="gpa" placeholder="e.g., 3.8/4.0">
         </div>
         <div class="form-group">
-            <label>Thành tích nổi bật</label>
-            <textarea name="achievements" rows="2" placeholder="Ví dụ: Magna Cum Laude, Dean's List..."></textarea>
+            <label>Achievements</label>
+            <textarea name="achievements" rows="2" placeholder="e.g., Magna Cum Laude, Dean's List..."></textarea>
         </div>
-        <button type="button" class="remove-btn" onclick="removeEducation(this)">Xóa</button>
+        <button type="button" class="remove-btn" onclick="removeEducation(this)">Remove</button>
     `;
     container.appendChild(newItem);
     educationCount++;
@@ -83,30 +133,30 @@ function addExperience() {
     newItem.className = 'experience-item';
     newItem.innerHTML = `
         <div class="form-group">
-            <label>Tên công ty *</label>
-            <input type="text" name="company" placeholder="Ví dụ: Google Inc." required>
+            <label>Company/Organization *</label>
+            <input type="text" name="company" placeholder="e.g., Google Inc." required>
         </div>
         <div class="form-group">
-            <label>Địa điểm *</label>
-            <input type="text" name="location" placeholder="Ví dụ: Mountain View, CA" required>
+            <label>Location *</label>
+            <input type="text" name="location" placeholder="e.g., Mountain View, CA" required>
         </div>
         <div class="form-group">
-            <label>Vị trí công việc *</label>
-            <input type="text" name="position" placeholder="Ví dụ: Software Engineer" required>
+            <label>Position Title *</label>
+            <input type="text" name="position" placeholder="e.g., Software Engineer" required>
         </div>
         <div class="form-group">
-            <label>Thời gian bắt đầu *</label>
+            <label>Start Date *</label>
             <input type="month" name="startDate" required>
         </div>
         <div class="form-group">
-            <label>Thời gian kết thúc *</label>
-            <input type="month" name="endDate" placeholder="Để trống nếu đang làm việc">
+            <label>End Date *</label>
+            <input type="month" name="endDate" placeholder="Leave blank if currently working">
         </div>
         <div class="form-group">
-            <label>Mô tả công việc *</label>
-            <textarea name="description" rows="3" placeholder="Mô tả chi tiết về trách nhiệm và thành tựu (mỗi dòng một bullet point)..." required></textarea>
+            <label>Job Description *</label>
+            <textarea name="description" rows="3" placeholder="Describe your responsibilities and achievements (one bullet point per line)..." required></textarea>
         </div>
-        <button type="button" class="remove-btn" onclick="removeExperience(this)">Xóa</button>
+        <button type="button" class="remove-btn" onclick="removeExperience(this)">Remove</button>
     `;
     container.appendChild(newItem);
     experienceCount++;
@@ -128,22 +178,22 @@ function addProject() {
     newItem.className = 'project-item';
     newItem.innerHTML = `
         <div class="form-group">
-            <label>Tên tổ chức/dự án *</label>
-            <input type="text" name="projectName" placeholder="Ví dụ: Harvard Computer Science Club" required>
+            <label>Organization/Project Name *</label>
+            <input type="text" name="projectName" placeholder="e.g., Harvard Computer Science Club" required>
         </div>
         <div class="form-group">
-            <label>Vai trò *</label>
-            <input type="text" name="projectTech" placeholder="Ví dụ: President, Project Lead" required>
+            <label>Role *</label>
+            <input type="text" name="projectTech" placeholder="e.g., President, Project Lead" required>
         </div>
         <div class="form-group">
-            <label>Mô tả hoạt động *</label>
-            <textarea name="projectDesc" rows="2" placeholder="Mô tả chi tiết về hoạt động và thành tựu..." required></textarea>
+            <label>Activity Description *</label>
+            <textarea name="projectDesc" rows="2" placeholder="Describe your activities and achievements..." required></textarea>
         </div>
         <div class="form-group">
-            <label>Link (nếu có)</label>
+            <label>Link (Optional)</label>
             <input type="url" name="projectLink" placeholder="https://example.com">
         </div>
-        <button type="button" class="remove-btn" onclick="removeProject(this)">Xóa</button>
+        <button type="button" class="remove-btn" onclick="removeProject(this)">Remove</button>
     `;
     container.appendChild(newItem);
     projectCount++;
@@ -161,15 +211,15 @@ function removeProject(button) {
 function collectFormData() {
     const formData = {
         // Personal information
-        fullName: document.getElementById('fullName').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        address: document.getElementById('address').value,
-        linkedin: document.getElementById('linkedin').value,
-        website: document.getElementById('website').value,
+        fullName: getInputValue('fullName'),
+        email: getInputValue('email'),
+        phone: getInputValue('phone'),
+        address: getInputValue('address'),
+        linkedin: getInputValue('linkedin'),
+        website: getInputValue('website'),
         
         // Objective
-        objective: document.getElementById('objective').value,
+        objective: getInputValue('objective'),
         
         // Education
         education: [],
@@ -178,17 +228,17 @@ function collectFormData() {
         experience: [],
         
         // Skills
-        skills: document.getElementById('skills').value.split('\n').filter(skill => skill.trim()),
+        skills: (getInputValue('skills') || '').split('\n').filter(skill => skill.trim()),
         
         
         // Projects
         projects: [],
         
         // Languages
-        languages: document.getElementById('languages').value.split('\n').filter(lang => lang.trim()),
+        languages: (getInputValue('languages') || '').split('\n').filter(lang => lang.trim()),
         
         // Hobbies
-        hobbies: document.getElementById('hobbies').value
+        hobbies: getInputValue('hobbies')
     };
     
     // Collect education data
@@ -285,6 +335,8 @@ function generateCVHTML(data) {
     
     // Education
     if (data.education.length > 0) {
+        // Extra line break before Education section
+        html += `<div class="cv-spacer"></div>`;
         html += `
             <div class="cv-section">
                 <div class="cv-section-title">Education</div>
@@ -403,24 +455,24 @@ function generatePDF() {
     
     // Validate required fields
     if (!formData.fullName || !formData.email || !formData.phone) {
-        alert('Vui lòng điền đầy đủ thông tin bắt buộc (Họ tên, Email, Số điện thoại)');
+        alert('Please fill in all required fields (Full Name, Email, Phone Number)');
         return;
     }
     
     if (formData.education.length === 0) {
-        alert('Vui lòng thêm ít nhất một thông tin học vấn');
+        alert('Please add at least one education entry');
         return;
     }
     
     if (formData.experience.length === 0) {
-        alert('Vui lòng thêm ít nhất một kinh nghiệm làm việc');
+        alert('Please add at least one experience entry');
         return;
     }
     
     // Validate education fields
     for (let edu of formData.education) {
         if (!edu.school || !edu.location || !edu.degree || !edu.startDate || !edu.endDate) {
-            alert('Vui lòng điền đầy đủ thông tin học vấn (trường, địa điểm, bằng cấp, thời gian)');
+            alert('Please fill in all education fields (school, location, degree, dates)');
             return;
         }
     }
@@ -428,7 +480,7 @@ function generatePDF() {
     // Validate experience fields
     for (let exp of formData.experience) {
         if (!exp.company || !exp.location || !exp.position || !exp.startDate) {
-            alert('Vui lòng điền đầy đủ thông tin kinh nghiệm (công ty, địa điểm, vị trí, thời gian bắt đầu)');
+            alert('Please fill in all experience fields (company, location, position, start date)');
             return;
         }
     }
@@ -502,7 +554,7 @@ function generatePDF() {
         doc.save(fileName);
     }).catch(error => {
         console.error('Error generating PDF:', error);
-        alert('Có lỗi khi tạo PDF. Vui lòng thử lại.');
+        alert('Error generating PDF. Please try again.');
         // Remove temporary container in case of error
         if (document.body.contains(tempContainer)) {
             document.body.removeChild(tempContainer);
