@@ -45,9 +45,9 @@
                 </div>
             </section>
 
-            <!-- Mục tiêu nghề nghiệp -->
+            <!-- Mục tiêu nghề nghiệp (Optional) -->
             <section class="form-section">
-                <h2>Mục tiêu nghề nghiệp</h2>
+                <h2>Mục tiêu nghề nghiệp (Tùy chọn)</h2>
                 <div class="form-group">
                     <label for="objective">Mô tả ngắn gọn về mục tiêu nghề nghiệp</label>
                     <textarea id="objective" name="objective" rows="3" placeholder="Ví dụ: Tìm kiếm vị trí Software Engineer tại công ty công nghệ hàng đầu..."></textarea>
@@ -112,86 +112,51 @@
                 <button type="button" class="add-btn" onclick="addExperience()">+ Thêm kinh nghiệm</button>
             </section>
 
-            <!-- Kỹ năng -->
+            <!-- Skills & Interests -->
             <section class="form-section">
-                <h2>Kỹ năng</h2>
+                <h2>Skills & Interests</h2>
                 <div class="form-group">
-                    <label for="skills">Kỹ năng chuyên môn (mỗi kỹ năng một dòng)</label>
+                    <label for="skills">Technical Skills (mỗi kỹ năng một dòng)</label>
                     <textarea id="skills" name="skills" rows="4" placeholder="JavaScript&#10;Python&#10;React&#10;Node.js&#10;SQL"></textarea>
                 </div>
-            </section>
-
-            <!-- Chứng chỉ -->
-            <section class="form-section">
-                <h2>Chứng chỉ</h2>
-                <div id="certificationContainer">
-                    <div class="certification-item">
-                        <div class="form-group">
-                            <label>Tên chứng chỉ *</label>
-                            <input type="text" name="certName" placeholder="Ví dụ: AWS Certified Solutions Architect" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Tổ chức cấp *</label>
-                            <input type="text" name="certOrg" placeholder="Ví dụ: Amazon Web Services" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Ngày cấp</label>
-                            <input type="month" name="certDate">
-                        </div>
-                        <div class="form-group">
-                            <label>Mã chứng chỉ (nếu có)</label>
-                            <input type="text" name="certId" placeholder="Ví dụ: AWS-123456">
-                        </div>
-                        <button type="button" class="remove-btn" onclick="removeCertification(this)">Xóa</button>
-                    </div>
+                <div class="form-group">
+                    <label for="languages">Languages (mỗi ngôn ngữ một dòng)</label>
+                    <textarea id="languages" name="languages" rows="3" placeholder="English - Fluent&#10;Spanish - Intermediate&#10;French - Basic"></textarea>
                 </div>
-                <button type="button" class="add-btn" onclick="addCertification()">+ Thêm chứng chỉ</button>
+                <div class="form-group">
+                    <label for="hobbies">Interests (tùy chọn)</label>
+                    <textarea id="hobbies" name="hobbies" rows="2" placeholder="Photography, hiking, chess..."></textarea>
+                </div>
             </section>
 
-            <!-- Dự án -->
+
+            <!-- Leadership & Activities -->
             <section class="form-section">
-                <h2>Dự án nổi bật</h2>
+                <h2>Leadership & Activities</h2>
                 <div id="projectContainer">
                     <div class="project-item">
                         <div class="form-group">
-                            <label>Tên dự án *</label>
-                            <input type="text" name="projectName" placeholder="Ví dụ: E-commerce Website" required>
+                            <label>Tên tổ chức/dự án *</label>
+                            <input type="text" name="projectName" placeholder="Ví dụ: Harvard Computer Science Club" required>
                         </div>
                         <div class="form-group">
-                            <label>Mô tả dự án *</label>
-                            <textarea name="projectDesc" rows="2" placeholder="Mô tả ngắn gọn về dự án..." required></textarea>
+                            <label>Vai trò *</label>
+                            <input type="text" name="projectTech" placeholder="Ví dụ: President, Project Lead" required>
                         </div>
                         <div class="form-group">
-                            <label>Công nghệ sử dụng</label>
-                            <input type="text" name="projectTech" placeholder="Ví dụ: React, Node.js, MongoDB">
+                            <label>Mô tả hoạt động *</label>
+                            <textarea name="projectDesc" rows="2" placeholder="Mô tả chi tiết về hoạt động và thành tựu..." required></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Link dự án (nếu có)</label>
-                            <input type="url" name="projectLink" placeholder="https://github.com/username/project">
+                            <label>Link (nếu có)</label>
+                            <input type="url" name="projectLink" placeholder="https://example.com">
                         </div>
                         <button type="button" class="remove-btn" onclick="removeProject(this)">Xóa</button>
                     </div>
                 </div>
-                <button type="button" class="add-btn" onclick="addProject()">+ Thêm dự án</button>
+                <button type="button" class="add-btn" onclick="addProject()">+ Thêm hoạt động</button>
             </section>
 
-            <!-- Ngôn ngữ -->
-            <section class="form-section">
-                <h2>Ngôn ngữ</h2>
-                <div class="form-group">
-                    <label for="languages">Ngôn ngữ (mỗi ngôn ngữ một dòng)</label>
-                    <textarea id="languages" name="languages" rows="3" placeholder="Tiếng Việt - Bản ngữ&#10;Tiếng Anh - Thành thạo&#10;Tiếng Nhật - Trung bình"></textarea>
-                </div>
-            </section>
-
-            <!-- Sở thích -->
-            <section class="form-section">
-                <h2>Sở thích</h2>
-                <div class="form-group">
-                    <label for="hobbies">Sở thích cá nhân (tùy chọn)</label>
-                    <textarea id="hobbies" name="hobbies" rows="2" placeholder="Đọc sách, chơi guitar, du lịch..."></textarea>
-                </div>
-            </section>
 
             <div class="form-actions">
                 <button type="button" id="previewBtn" class="btn btn-secondary">Xem trước</button>

@@ -104,63 +104,28 @@ function removeExperience(button) {
     }
 }
 
-// Add certification section
-function addCertification() {
-    const container = document.getElementById('certificationContainer');
-    const newItem = document.createElement('div');
-    newItem.className = 'certification-item';
-    newItem.innerHTML = `
-        <div class="form-group">
-            <label>Tên chứng chỉ *</label>
-            <input type="text" name="certName" placeholder="Ví dụ: AWS Certified Solutions Architect" required>
-        </div>
-        <div class="form-group">
-            <label>Tổ chức cấp *</label>
-            <input type="text" name="certOrg" placeholder="Ví dụ: Amazon Web Services" required>
-        </div>
-        <div class="form-group">
-            <label>Ngày cấp</label>
-            <input type="month" name="certDate">
-        </div>
-        <div class="form-group">
-            <label>Mã chứng chỉ (nếu có)</label>
-            <input type="text" name="certId" placeholder="Ví dụ: AWS-123456">
-        </div>
-        <button type="button" class="remove-btn" onclick="removeCertification(this)">Xóa</button>
-    `;
-    container.appendChild(newItem);
-    certificationCount++;
-}
 
-// Remove certification section
-function removeCertification(button) {
-    if (certificationCount > 1) {
-        button.parentElement.remove();
-        certificationCount--;
-    }
-}
-
-// Add project section
+// Add project section (Leadership & Activities)
 function addProject() {
     const container = document.getElementById('projectContainer');
     const newItem = document.createElement('div');
     newItem.className = 'project-item';
     newItem.innerHTML = `
         <div class="form-group">
-            <label>Tên dự án *</label>
-            <input type="text" name="projectName" placeholder="Ví dụ: E-commerce Website" required>
+            <label>Tên tổ chức/dự án *</label>
+            <input type="text" name="projectName" placeholder="Ví dụ: Harvard Computer Science Club" required>
         </div>
         <div class="form-group">
-            <label>Mô tả dự án *</label>
-            <textarea name="projectDesc" rows="2" placeholder="Mô tả ngắn gọn về dự án..." required></textarea>
+            <label>Vai trò *</label>
+            <input type="text" name="projectTech" placeholder="Ví dụ: President, Project Lead" required>
         </div>
         <div class="form-group">
-            <label>Công nghệ sử dụng</label>
-            <input type="text" name="projectTech" placeholder="Ví dụ: React, Node.js, MongoDB">
+            <label>Mô tả hoạt động *</label>
+            <textarea name="projectDesc" rows="2" placeholder="Mô tả chi tiết về hoạt động và thành tựu..." required></textarea>
         </div>
         <div class="form-group">
-            <label>Link dự án (nếu có)</label>
-            <input type="url" name="projectLink" placeholder="https://github.com/username/project">
+            <label>Link (nếu có)</label>
+            <input type="url" name="projectLink" placeholder="https://example.com">
         </div>
         <button type="button" class="remove-btn" onclick="removeProject(this)">Xóa</button>
     `;
@@ -199,8 +164,6 @@ function collectFormData() {
         // Skills
         skills: document.getElementById('skills').value.split('\n').filter(skill => skill.trim()),
         
-        // Certifications
-        certifications: [],
         
         // Projects
         projects: [],
@@ -243,20 +206,6 @@ function collectFormData() {
         }
     });
     
-    // Collect certification data
-    const certificationItems = document.querySelectorAll('.certification-item');
-    certificationItems.forEach(item => {
-        const certName = item.querySelector('input[name="certName"]').value;
-        const certOrg = item.querySelector('input[name="certOrg"]').value;
-        const certDate = item.querySelector('input[name="certDate"]').value;
-        const certId = item.querySelector('input[name="certId"]').value;
-        
-        if (certName && certOrg) {
-            formData.certifications.push({
-                certName, certOrg, certDate, certId
-            });
-        }
-    });
     
     // Collect project data
     const projectItems = document.querySelectorAll('.project-item');
@@ -296,16 +245,12 @@ function generateCVHTML(data) {
         <div class="cv-preview">
             <div class="cv-header">
                 <div class="cv-name">${data.fullName || 'Họ và tên'}</div>
-                <div class="cv-contact">
-                    ${data.email ? `Email: ${data.email}` : ''}
-                    ${data.phone ? ` | Phone: ${data.phone}` : ''}
-                    ${data.address ? ` | ${data.address}` : ''}
-                </div>
-                <div class="cv-contact">
-                    ${data.linkedin ? `LinkedIn: ${data.linkedin}` : ''}
-                    ${data.website ? ` | Website: ${data.website}` : ''}
-                </div>
+                <div class="cv-header-line"></div>
             </div>
+            <div class="cv-contact">
+                ${data.address ? data.address : ''}${data.address && data.email ? ' • ' : ''}${data.email ? data.email : ''}${(data.address || data.email) && data.phone ? ' • ' : ''}${data.phone ? data.phone : ''}
+            </div>
+            ${data.linkedin || data.website ? `<div class="cv-contact">${data.linkedin ? `LinkedIn: ${data.linkedin}` : ''}${data.linkedin && data.website ? ' • ' : ''}${data.website ? `Website: ${data.website}` : ''}</div>` : ''}
     `;
     
     // Objective
@@ -322,15 +267,18 @@ function generateCVHTML(data) {
     if (data.education.length > 0) {
         html += `
             <div class="cv-section">
-                <div class="cv-section-title">Học vấn</div>
+                <div class="cv-section-title">Education</div>
                 <div class="cv-section-content">
         `;
         data.education.forEach(edu => {
             html += `
                 <div class="cv-item">
-                    <div class="cv-item-title">${edu.degree}</div>
-                    <div class="cv-item-company">${edu.school} | ${edu.graduationYear}</div>
-                    ${edu.gpa ? `<div class="cv-item-date">GPA: ${edu.gpa}</div>` : ''}
+                    <div class="cv-item-header">
+                        <span class="cv-item-company">${edu.school}</span>
+                        <span class="cv-item-location">Cambridge, MA</span>
+                    </div>
+                    <div class="cv-item-degree">${edu.degree}${edu.gpa ? `. GPA: ${edu.gpa}` : ''}</div>
+                    <div class="cv-item-date">${edu.graduationYear}</div>
                     ${edu.achievements ? `<div class="cv-item-description">${edu.achievements}</div>` : ''}
                 </div>
             `;
@@ -342,97 +290,78 @@ function generateCVHTML(data) {
     if (data.experience.length > 0) {
         html += `
             <div class="cv-section">
-                <div class="cv-section-title">Kinh nghiệm làm việc</div>
+                <div class="cv-section-title">Experience</div>
                 <div class="cv-section-content">
         `;
         data.experience.forEach(exp => {
             html += `
                 <div class="cv-item">
-                    <div class="cv-item-title">${exp.position}</div>
-                    <div class="cv-item-company">${exp.company} | ${exp.duration}</div>
-                    <div class="cv-item-description">${exp.description}</div>
+                    <div class="cv-item-header">
+                        <span class="cv-item-company">${exp.company}</span>
+                        <span class="cv-item-location">City, State</span>
+                    </div>
+                    <div class="cv-item-position">${exp.position}</div>
+                    <div class="cv-item-date">${exp.duration}</div>
+                    <div class="cv-item-description">
+                        <ul class="cv-bullet-list">
+                            ${exp.description.split('\n').filter(line => line.trim()).map(line => 
+                                `<li>${line.trim()}</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
                 </div>
             `;
         });
         html += `</div></div>`;
     }
     
-    // Skills
-    if (data.skills.length > 0) {
-        html += `
-            <div class="cv-section">
-                <div class="cv-section-title">Kỹ năng</div>
-                <div class="cv-section-content">
-                    <ul class="cv-skills-list">
-        `;
-        data.skills.forEach(skill => {
-            html += `<li>${skill.trim()}</li>`;
-        });
-        html += `</ul></div></div>`;
-    }
-    
-    // Certifications
-    if (data.certifications.length > 0) {
-        html += `
-            <div class="cv-section">
-                <div class="cv-section-title">Chứng chỉ</div>
-                <div class="cv-section-content">
-        `;
-        data.certifications.forEach(cert => {
-            html += `
-                <div class="cv-item">
-                    <div class="cv-item-title">${cert.certName}</div>
-                    <div class="cv-item-company">${cert.certOrg}${cert.certDate ? ` | ${cert.certDate}` : ''}</div>
-                    ${cert.certId ? `<div class="cv-item-date">ID: ${cert.certId}</div>` : ''}
-                </div>
-            `;
-        });
-        html += `</div></div>`;
-    }
-    
-    // Projects
+    // Leadership & Activities (using projects as activities)
     if (data.projects.length > 0) {
         html += `
             <div class="cv-section">
-                <div class="cv-section-title">Dự án nổi bật</div>
+                <div class="cv-section-title">Leadership & Activities</div>
                 <div class="cv-section-content">
         `;
         data.projects.forEach(project => {
             html += `
                 <div class="cv-item">
-                    <div class="cv-item-title">${project.projectName}</div>
-                    ${project.projectTech ? `<div class="cv-item-company">Công nghệ: ${project.projectTech}</div>` : ''}
-                    <div class="cv-item-description">${project.projectDesc}</div>
-                    ${project.projectLink ? `<div class="cv-item-date">Link: ${project.projectLink}</div>` : ''}
+                    <div class="cv-item-header">
+                        <span class="cv-item-company">${project.projectName}</span>
+                        <span class="cv-item-location">City, State</span>
+                    </div>
+                    <div class="cv-item-position">${project.projectTech || 'Project'}</div>
+                    <div class="cv-item-date">2023 - Present</div>
+                    <div class="cv-item-description">
+                        <ul class="cv-bullet-list">
+                            <li>${project.projectDesc}</li>
+                            ${project.projectLink ? `<li>Link: ${project.projectLink}</li>` : ''}
+                        </ul>
+                    </div>
                 </div>
             `;
         });
         html += `</div></div>`;
     }
     
-    // Languages
-    if (data.languages.length > 0) {
+    // Skills & Interests
+    if (data.skills.length > 0 || data.languages.length > 0 || data.hobbies) {
         html += `
             <div class="cv-section">
-                <div class="cv-section-title">Ngôn ngữ</div>
+                <div class="cv-section-title">Skills & Interests</div>
                 <div class="cv-section-content">
-                    <ul class="cv-skills-list">
         `;
-        data.languages.forEach(lang => {
-            html += `<li>${lang.trim()}</li>`;
-        });
-        html += `</ul></div></div>`;
+        if (data.skills.length > 0) {
+            html += `<div class="cv-skills-category"><strong>Technical:</strong> ${data.skills.join(', ')}</div>`;
+        }
+        if (data.languages.length > 0) {
+            html += `<div class="cv-skills-category"><strong>Language:</strong> ${data.languages.join(', ')}</div>`;
+        }
+        if (data.hobbies) {
+            html += `<div class="cv-skills-category"><strong>Interests:</strong> ${data.hobbies}</div>`;
+        }
+        html += `</div></div>`;
     }
     
-    // Hobbies
-    if (data.hobbies) {
-        html += `
-            <div class="cv-section">
-                <div class="cv-section-title">Sở thích</div>
-                <div class="cv-section-content">${data.hobbies}</div>
-            </div>
-        `;
-    }
     
     html += `</div>`;
     return html;
