@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvard CV Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Harvard CV Generator</h1>
+            <p>Tạo CV chuẩn Harvard chuyên nghiệp</p>
+        </header>
+
+        <form id="cvForm" class="cv-form">
+            <!-- Thông tin cá nhân -->
+            <section class="form-section">
+                <h2>Thông tin cá nhân</h2>
+                <div class="form-group">
+                    <label for="fullName">Họ và tên *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Địa chỉ</label>
+                    <textarea id="address" name="address" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn</label>
+                    <input type="url" id="linkedin" name="linkedin">
+                </div>
+                <div class="form-group">
+                    <label for="website">Website cá nhân</label>
+                    <input type="url" id="website" name="website">
+                </div>
+            </section>
+
+            <!-- Mục tiêu nghề nghiệp -->
+            <section class="form-section">
+                <h2>Mục tiêu nghề nghiệp</h2>
+                <div class="form-group">
+                    <label for="objective">Mô tả ngắn gọn về mục tiêu nghề nghiệp</label>
+                    <textarea id="objective" name="objective" rows="3" placeholder="Ví dụ: Tìm kiếm vị trí Software Engineer tại công ty công nghệ hàng đầu..."></textarea>
+                </div>
+            </section>
+
+            <!-- Học vấn -->
+            <section class="form-section">
+                <h2>Học vấn</h2>
+                <div id="educationContainer">
+                    <div class="education-item">
+                        <div class="form-group">
+                            <label>Bằng cấp *</label>
+                            <input type="text" name="degree" placeholder="Ví dụ: Cử nhân Khoa học Máy tính" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tên trường *</label>
+                            <input type="text" name="school" placeholder="Ví dụ: Đại học Bách Khoa Hà Nội" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Năm tốt nghiệp *</label>
+                            <input type="number" name="graduationYear" min="1900" max="2030" required>
+                        </div>
+                        <div class="form-group">
+                            <label>GPA (tùy chọn)</label>
+                            <input type="text" name="gpa" placeholder="Ví dụ: 3.8/4.0">
+                        </div>
+                        <div class="form-group">
+                            <label>Thành tích nổi bật</label>
+                            <textarea name="achievements" rows="2" placeholder="Ví dụ: Thủ khoa, học bổng toàn phần..."></textarea>
+                        </div>
+                        <button type="button" class="remove-btn" onclick="removeEducation(this)">Xóa</button>
+                    </div>
+                </div>
+                <button type="button" class="add-btn" onclick="addEducation()">+ Thêm học vấn</button>
+            </section>
+
+            <!-- Kinh nghiệm làm việc -->
+            <section class="form-section">
+                <h2>Kinh nghiệm làm việc</h2>
+                <div id="experienceContainer">
+                    <div class="experience-item">
+                        <div class="form-group">
+                            <label>Vị trí công việc *</label>
+                            <input type="text" name="position" placeholder="Ví dụ: Software Engineer" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tên công ty *</label>
+                            <input type="text" name="company" placeholder="Ví dụ: Google Inc." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Thời gian làm việc *</label>
+                            <input type="text" name="duration" placeholder="Ví dụ: 2020 - 2023" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mô tả công việc *</label>
+                            <textarea name="description" rows="3" placeholder="Mô tả chi tiết về trách nhiệm và thành tựu..." required></textarea>
+                        </div>
+                        <button type="button" class="remove-btn" onclick="removeExperience(this)">Xóa</button>
+                    </div>
+                </div>
+                <button type="button" class="add-btn" onclick="addExperience()">+ Thêm kinh nghiệm</button>
+            </section>
+
+            <!-- Kỹ năng -->
+            <section class="form-section">
+                <h2>Kỹ năng</h2>
+                <div class="form-group">
+                    <label for="skills">Kỹ năng chuyên môn (mỗi kỹ năng một dòng)</label>
+                    <textarea id="skills" name="skills" rows="4" placeholder="JavaScript&#10;Python&#10;React&#10;Node.js&#10;SQL"></textarea>
+                </div>
+            </section>
+
+            <!-- Chứng chỉ -->
+            <section class="form-section">
+                <h2>Chứng chỉ</h2>
+                <div id="certificationContainer">
+                    <div class="certification-item">
+                        <div class="form-group">
+                            <label>Tên chứng chỉ *</label>
+                            <input type="text" name="certName" placeholder="Ví dụ: AWS Certified Solutions Architect" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tổ chức cấp *</label>
+                            <input type="text" name="certOrg" placeholder="Ví dụ: Amazon Web Services" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ngày cấp</label>
+                            <input type="month" name="certDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Mã chứng chỉ (nếu có)</label>
+                            <input type="text" name="certId" placeholder="Ví dụ: AWS-123456">
+                        </div>
+                        <button type="button" class="remove-btn" onclick="removeCertification(this)">Xóa</button>
+                    </div>
+                </div>
+                <button type="button" class="add-btn" onclick="addCertification()">+ Thêm chứng chỉ</button>
+            </section>
+
+            <!-- Dự án -->
+            <section class="form-section">
+                <h2>Dự án nổi bật</h2>
+                <div id="projectContainer">
+                    <div class="project-item">
+                        <div class="form-group">
+                            <label>Tên dự án *</label>
+                            <input type="text" name="projectName" placeholder="Ví dụ: E-commerce Website" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mô tả dự án *</label>
+                            <textarea name="projectDesc" rows="2" placeholder="Mô tả ngắn gọn về dự án..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Công nghệ sử dụng</label>
+                            <input type="text" name="projectTech" placeholder="Ví dụ: React, Node.js, MongoDB">
+                        </div>
+                        <div class="form-group">
+                            <label>Link dự án (nếu có)</label>
+                            <input type="url" name="projectLink" placeholder="https://github.com/username/project">
+                        </div>
+                        <button type="button" class="remove-btn" onclick="removeProject(this)">Xóa</button>
+                    </div>
+                </div>
+                <button type="button" class="add-btn" onclick="addProject()">+ Thêm dự án</button>
+            </section>
+
+            <!-- Ngôn ngữ -->
+            <section class="form-section">
+                <h2>Ngôn ngữ</h2>
+                <div class="form-group">
+                    <label for="languages">Ngôn ngữ (mỗi ngôn ngữ một dòng)</label>
+                    <textarea id="languages" name="languages" rows="3" placeholder="Tiếng Việt - Bản ngữ&#10;Tiếng Anh - Thành thạo&#10;Tiếng Nhật - Trung bình"></textarea>
+                </div>
+            </section>
+
+            <!-- Sở thích -->
+            <section class="form-section">
+                <h2>Sở thích</h2>
+                <div class="form-group">
+                    <label for="hobbies">Sở thích cá nhân (tùy chọn)</label>
+                    <textarea id="hobbies" name="hobbies" rows="2" placeholder="Đọc sách, chơi guitar, du lịch..."></textarea>
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="button" id="previewBtn" class="btn btn-secondary">Xem trước</button>
+                <button type="button" id="generateBtn" class="btn btn-primary">Tạo CV PDF</button>
+            </div>
+        </form>
+
+        <!-- Preview Modal -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Xem trước CV</h2>
+                <div id="previewContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
